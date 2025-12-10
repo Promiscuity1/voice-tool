@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Background Switching Logic
     function updateBackground() {
         // Using a random seed to bypass cache and get a new image every time
-        // t.mwm.moe is a reliable public anime wallpaper API
+        // API: dmoe.cc
         const randomSeed = new Date().getTime();
-        const imageUrl = `https://t.mwm.moe/pc?${randomSeed}`;
+        const imageUrl = `https://www.dmoe.cc/random.php?${randomSeed}`;
 
         // Preload image to avoid white flash
         const img = new Image();
