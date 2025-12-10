@@ -9,6 +9,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyBtn = document.getElementById('copyBtn');
     const visualizer = document.getElementById('visualizer');
     const recordBtnText = document.getElementById('recordBtnText');
+    const changeBgBtn = document.getElementById('changeBgBtn');
+    const bgLayer = document.getElementById('bg-layer');
+
+    // Background Switching Logic
+    function updateBackground() {
+        // Using a random seed to bypass cache and get a new image every time
+        // t.mwm.moe is a reliable public anime wallpaper API
+        const randomSeed = new Date().getTime();
+        const imageUrl = `https://t.mwm.moe/pc?${randomSeed}`;
+
+        // Preload image to avoid white flash
+        const img = new Image();
+        img.src = imageUrl;
+        img.onload = () => {
+            bgLayer.style.backgroundImage = `url('${imageUrl}')`;
+        };
+    }
+
+    // Initial load
+    updateBackground();
+
+    // Button click
+    changeBgBtn.addEventListener('click', () => {
+        // Add rotation animation class briefly
+        changeBgBtn.style.transform = "rotate(360deg)";
+        setTimeout(() => changeBgBtn.style.transform = "", 500);
+        updateBackground();
+    });
 
     let mediaRecorder;
     let audioChunks = [];

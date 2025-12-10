@@ -29,50 +29,33 @@ body {
     position: relative;
 }
 
-/* Dynamic Background */
-.background-globes {
-    position: absolute;
+/* Dynamic Background Layer */
+#bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    background-color: var(--bg-color);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Dark Overlay to ensure text readability */
+#bg-overlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: -1;
-    overflow: hidden;
-}
-
-.globe {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.6;
-    animation: floating 10s infinite alternate;
-}
-
-.globe-1 {
-    width: 400px;
-    height: 400px;
-    background: #4f46e5;
-    top: -100px;
-    left: -100px;
-}
-
-.globe-2 {
-    width: 300px;
-    height: 300px;
-    background: #ec4899;
-    bottom: -50px;
-    right: -50px;
-    animation-delay: -5s;
-}
-
-@keyframes floating {
-    0% {
-        transform: translate(0, 0);
-    }
-
-    100% {
-        transform: translate(20px, 40px);
-    }
+    background: rgba(15, 23, 42, 0.4);
+    /* Slight dark tint */
+    backdrop-filter: blur(3px);
+    /* Slight blur for focus */
 }
 
 /* Glassmorphism Container */
@@ -88,6 +71,33 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Floating Action Button for Background */
+.btn-floating {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.btn-floating:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(180deg);
 }
 
 header {
