@@ -104,20 +104,49 @@ header {
     text-align: center;
 }
 
+@keyframes gradient-flow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--primary-color);
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+
+    /* Flowing Gradient */
+    background: linear-gradient(45deg, #0cebeb, #20e3b2, #29ffc6, #ffd900, #ff5e00, #ff0055, #d900ff);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-flow 5s ease infinite;
 }
 
 h1 {
     font-size: 2rem;
     margin-bottom: 0.2rem;
+
+    /* Flowing Gradient */
+    background: linear-gradient(45deg, #00dbde, #fc00ff, #00dbde);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-flow 3s linear infinite;
 }
 
 .subtitle {
