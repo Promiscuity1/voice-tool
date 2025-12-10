@@ -1,3 +1,12 @@
+---
+title: Voice Tool
+emoji: 🎙️
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # AI 语音转文字工具 (Voice Tool)
 
 这是一个基于 **Python FastAPI** 和 **Faster-Whisper** 的本地语音转文字工具。
