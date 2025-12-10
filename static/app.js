@@ -13,17 +13,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgLayer = document.getElementById('bg-layer');
 
     // Background Switching Logic
+    // Background Switching Logic
     function updateBackground() {
-        // Using a random seed to bypass cache and get a new image every time
-        // API: dmoe.cc
-        const randomSeed = new Date().getTime();
-        const imageUrl = `https://www.dmoe.cc/random.php?${randomSeed}`;
+        // API List
+        const primaryApi = `https://www.dmoe.cc/random.php?${new Date().getTime()}`;
+        const fallbackApi = `https://t.mwm.moe/pc?${new Date().getTime()}`;
 
-        // Preload image to avoid white flash
         const img = new Image();
-        img.src = imageUrl;
+
+        // Try loading Primary API (dmoe.cc)
+        img.src = primaryApi;
+
         img.onload = () => {
-            bgLayer.style.backgroundImage = `url('${imageUrl}')`;
+            bgLayer.style.backgroundImage = `url('${primaryApi}')`;
+            console.log("Background loaded from:", primaryApi);
+        };
+
+        img.onerror = () => {
+            console.error("Primary API failed (likely Mixed Content or Network Error). Switching to Fallback.");
+            // Fallback to reliable API
+            bgLayer.style.backgroundImage = `url('${fallbackApi}')`;
         };
     }
 
