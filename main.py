@@ -1,5 +1,6 @@
 import os
 import shutil
+import platform
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
@@ -22,20 +23,27 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Set Proxy for Downloading Model from HuggingFace (Clash Verge)
-os.environ["HTTP_PROXY"] = "http://127.0.0.1:7897"
-os.environ["HTTPS_PROXY"] = "http://127.0.0.1:7897"
+# Set Proxy for Downloading Model (Clash Verge) - ONLY enabled on Windows (Local Dev)
+# On Cloud (Linux/HuggingFace), we don't need this proxy and it would break connectivity.
+if platform.system() == "Windows":
+    os.environ["HTTP_PROXY"] = "http://127.0.0.1:7897"
+    os.environ["HTTPS_PROXY"] = "http://127.0.0.1:7897"
+    print("--- Windows detected: Proxy set to 127.0.0.1:7897 ---")
+else:
+    print("--- Non-Windows detected: No proxy set (Cloud Mode) ---")
 
 # Initialize Local Model
 # Using 'medium' for a balance of speed and accuracy. 
-# 'large-v3' is the "strongest" but is 3GB+ and very slow on CPU.
-# We will try 'medium' first. If you want 'large-v3', just change this string.
 print("--- Loading Local Model (This may take a while to download on first run)... ---")
 model_size = "medium" 
 # Run on GPU with FP16 if available, else CPU with INT8
 # device="auto" (or "cuda"/"cpu"), compute_type="int8"
-model = WhisperModel(model_size, device="cpu", compute_type="int8")
-print("--- Local Model Loaded Successfully ---")
+try:
+    model = WhisperModel(model_size, device="cpu", compute_type="int8")
+    print("--- Local Model Loaded Successfully ---")
+except Exception as e:
+    print(f"!!! Error Loading Model: {e} !!!")
+    model = None
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
@@ -48,6 +56,9 @@ async def transcribe_audio(file: UploadFile = File(...)):
     """
     Receives an audio file and uses Local Whisper to transcribe it.
     """
+    if not model:
+        raise HTTPException(status_code=500, detail="Model not loaded")
+
     temp_filename = f"temp_{file.filename}"
     
     try:
@@ -78,4 +89,5 @@ async def transcribe_audio(file: UploadFile = File(...)):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # HuggingFace Spaces defaults to port 7860
+    uvicorn.run(app, host="0.0.0.0", port=7860)
