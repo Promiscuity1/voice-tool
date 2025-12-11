@@ -33,9 +33,10 @@ else:
     print("--- Non-Windows detected: No proxy set (Cloud Mode) ---")
 
 # Initialize Local Model
-# Using 'medium' for a balance of speed and accuracy. 
-print("--- Loading Local Model (This may take a while to download on first run)... ---")
-model_size = "medium" 
+# Switched to 'small' model to fully support 1GB RAM/Free Tier VPS
+# 'medium' needs ~2GB RAM, which causes crashes on smaller servers.
+print("--- Loading Local Model (small)... ---")
+model_size = "small" 
 # Run on GPU with FP16 if available, else CPU with INT8
 # device="auto" (or "cuda"/"cpu"), compute_type="int8"
 try:
