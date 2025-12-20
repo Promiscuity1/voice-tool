@@ -33,9 +33,10 @@ else:
     print("--- Non-Windows detected: No proxy set (Cloud Mode) ---")
 
 # Initialize Local Model
-# Using 'small' for lower memory usage (~500MB RAM).
-print("--- Loading Local Model (small)... ---")
-model_size = "small" 
+# Initialize Local Model
+# Using 'large-v3' for BEST possible accuracy (HuggingFace has 16GB RAM).
+print("--- Loading Local Model (large-v3)... ---")
+model_size = "large-v3" 
 # Run on GPU with FP16 if available, else CPU with INT8
 # device="auto" (or "cuda"/"cpu"), compute_type="int8"
 try:
